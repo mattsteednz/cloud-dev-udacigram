@@ -40,7 +40,7 @@ export function checkImageUrl(imageUrl: string) {
     const pUrl = parse(imageUrl)
     
     // Add an additional check for an http image
-    if (pUrl.protocol !== 'http' && pUrl.protocol !== 'https') {
+    if (pUrl.protocol !== 'http:' && pUrl.protocol !== 'https:') {
       throw Error()
     }
   } catch (e) {

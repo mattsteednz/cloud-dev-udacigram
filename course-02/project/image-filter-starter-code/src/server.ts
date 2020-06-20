@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles, checkImageUrl} from './util/util';
 import { url } from 'inspector';
+import { authHeader } from './middleware/auth'
 
 (async () => {
 
@@ -13,6 +14,8 @@ import { url } from 'inspector';
   
   // Use the body parser middleware for post requests
   app.use(bodyParser.json());
+
+  app.use(authHeader);
 
   app.get("/filteredimage", async (req: Request, res: Response) => {
     const { image_url: imageUrl } = req.query;
@@ -30,6 +33,7 @@ import { url } from 'inspector';
     const localFile = await filterImageFromURL(imageUrl);
 
     res.sendFile(localFile, null, (err) => {
+      // Clean up files on success or failure
       deleteLocalFiles([localFile]);
     })
 
