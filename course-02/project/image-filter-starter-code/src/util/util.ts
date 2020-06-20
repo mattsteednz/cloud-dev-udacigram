@@ -1,5 +1,6 @@
 import fs from 'fs';
 import Jimp = require('jimp');
+import { parse } from 'url'
 
 // filterImageFromURL
 // helper function to download, filter, and save the filtered image locally
@@ -31,4 +32,20 @@ export async function deleteLocalFiles(files:Array<string>){
     for( let file of files) {
         fs.unlinkSync(file);
     }
+}
+
+export function checkImageUrl(imageUrl: string) {
+  try {
+    // Parse will throw a TypeError if image isn't a string
+    const pUrl = parse(imageUrl)
+    
+    // Add an additional check for an http image
+    if (pUrl.protocol !== 'http' && pUrl.protocol !== 'https') {
+      throw Error()
+    }
+  } catch (e) {
+    return false
+  }
+
+  return true
 }
