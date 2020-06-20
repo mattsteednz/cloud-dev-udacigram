@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import {filterImageFromURL, deleteLocalFiles, checkImageUrl} from './util/util';
+// import {filterImageFromURL, deleteLocalFiles, checkImageUrl} from './util/util';
+import { IndexRouter } from './controllers/v0/index.router';
 import { url } from 'inspector';
 import { authHeader } from './middleware/auth'
 
@@ -16,46 +17,48 @@ import { authHeader } from './middleware/auth'
   app.use(bodyParser.json());
 
   // Optional work: implement an auth middleware to prevent public requests
+  // This protects all endpoints
   app.use(authHeader);
 
   // IMPLEMENT A RESTFUL ENDPOINT
   // GET /filteredimage?image_url={{URL}}
   // endpoint to filter an image from a public url.
-  app.get("/filteredimage", async (req: Request, res: Response) => {
-    const { image_url: imageUrl } = req.query;
+  // app.get("/filteredimage", async (req: Request, res: Response) => {
+  //   const { image_url: imageUrl } = req.query;
 
-    // 1. Validate the image_url query
-    // Check query is specified
-    if (!imageUrl) {
-      return res.send(400).send('image_url is a required query parameter');
-    }
+  //   // 1. Validate the image_url query
+  //   // Check query is specified
+  //   if (!imageUrl) {
+  //     return res.send(400).send('image_url is a required query parameter');
+  //   }
 
-    // Check supplied URL is valid
-    if (!checkImageUrl(imageUrl)) {
-      return res.status(400).send('image_url is not a valid http or https URL');
-    }
+  //   // Check supplied URL is valid
+  //   if (!checkImageUrl(imageUrl)) {
+  //     return res.status(400).send('image_url is not a valid http or https URL');
+  //   }
 
-    // 2. Call filterImageFromURL(image_url) to filter the image
-    try {
-      const localFile = await filterImageFromURL(imageUrl);
+  //   // 2. Call filterImageFromURL(image_url) to filter the image
+  //   try {
+  //     const localFile = await filterImageFromURL(imageUrl);
 
-      // 3. Send the resulting file in the response
-      res.sendFile(localFile, null, (err) => {
-        // 4. Clean up files on success or failure
-        deleteLocalFiles([localFile]);
-      })
-    } catch {
-      return res.status(500).send('something went wrong processing the image_url');
-    }
+  //     // 3. Send the resulting file in the response
+  //     res.sendFile(localFile, null, (err) => {
+  //       // 4. Clean up files on success or failure
+  //       deleteLocalFiles([localFile]);
+  //     })
+  //   } catch {
+  //     return res.status(500).send('something went wrong processing the image_url');
+  //   }
 
-  })
+  // })
   
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
-    res.send("try GET /filteredimage?image_url={{}}")
-  } );
-  
+  // app.get( "/", async ( req, res ) => {
+  //   res.send("try GET /filteredimage?image_url={{}}")
+  // });
+
+  app.use('/', IndexRouter)
 
   // Start the Server
   app.listen( port, () => {
