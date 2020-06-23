@@ -12,13 +12,13 @@
 					"type": "apikey",
 					"apikey": [
 						{
-							"key": "value",
-							"value": "udacity",
+							"key": "key",
+							"value": "token",
 							"type": "string"
 						},
 						{
-							"key": "key",
-							"value": "token",
+							"key": "value",
+							"value": "udacity",
 							"type": "string"
 						}
 					]
@@ -201,6 +201,21 @@
 			"response": []
 		}
 	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "udacity",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "token",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -225,9 +240,9 @@
 	],
 	"variable": [
 		{
-			"id": "1df3d31a-de30-494b-a3d0-f1228dd8713c",
+			"id": "1f90e7d4-f5a5-4a2d-81f5-3093d93523a8",
 			"key": "HOST",
-			"value": "localhost:8082",
+			"value": "cloud-dev-project-dev.eu-west-2.elasticbeanstalk.com",
 			"type": "string"
 		}
 	],
