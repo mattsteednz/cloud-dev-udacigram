@@ -12,15 +12,19 @@ import { parse } from 'url'
 export async function filterImageFromURL(inputURL: string): Promise<string>{
     return new Promise(async (resolve, reject) => {
         const outpath = '/tmp/filtered.'+Math.floor(Math.random() * 2000)+'.jpg';
-        const photo = await Jimp.read(inputURL).then(img => {
+
+        // Udacity code has a workaround for this Jimp bug: https://github.com/oliver-moran/jimp/issues/803
+        // Broken with a specific combo of Jimp and TS, hence the old style require()
+        // @ts-ignore
+        const photo = await Jimp.read(inputURL).then((img: any) => {
             img.resize(256, 256) // resize
             .quality(60) // set JPEG quality
             .greyscale() // set greyscale
-            .write(__dirname+outpath, img => {
+            .write(__dirname+outpath, (img: any) => {
                 resolve(__dirname+outpath);
             })
           }
-        ).catch(err => {
+        ).catch((err: Error) => {
           reject(err)
         });
     });

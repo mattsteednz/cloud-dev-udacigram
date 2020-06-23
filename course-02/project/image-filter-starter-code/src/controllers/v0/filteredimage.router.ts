@@ -14,13 +14,13 @@ router.get("/", async (req: Request, res: Response) => {
   }
 
   // Check supplied URL is valid
-  if (!checkImageUrl(imageUrl)) {
+  if (!checkImageUrl(String(imageUrl))) {
     return res.status(400).send('Error: image_url is not a valid http or https URL');
   }
 
   // 2. Call filterImageFromURL(image_url) to filter the image
   try {
-    const localFile = await filterImageFromURL(imageUrl);
+    const localFile = await filterImageFromURL(String(imageUrl));
 
     // 3. Send the resulting file in the response
     res.sendFile(localFile, null, (err) => {
