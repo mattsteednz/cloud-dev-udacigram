@@ -1,8 +1,10 @@
 import { Request, Response } from 'express';
 
+const { simpleToken } = process.env;
+
 export function authHeader (req: Request, res: Response, next: Function) {
-  // Check for a 'token' header with the value of 'udcity'
-  if (req.headers.token !== 'udacity') {
+  // Check for a 'token' header with the value from environment vars
+  if (!req.headers.token || req.headers.token !== simpleToken) {
     return res.status(401).send('Error: Not authorised, check your token')
   }
 
