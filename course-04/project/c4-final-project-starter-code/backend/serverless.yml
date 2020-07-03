@@ -34,6 +34,21 @@ provider:
       Resource:
         - '*'
 
+custom:
+  documentation:
+    api:
+      info:
+        version: v1.0.0
+        title: Serverless Todo Application
+        description: Serverless application for Udacity
+    models:
+      - name: CreateTodo
+        contentType: application/json
+        schema: ${file(models/create-todo-request.json)}
+      - name: UpdateTodo
+        contentType: application/json
+        schema: ${file(models/update-todo-request.json)}
+
 functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
